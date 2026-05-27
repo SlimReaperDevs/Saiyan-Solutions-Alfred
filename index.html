@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alfred 1.0 — Personal OS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     BOOT SCREEN
+════════════════════════════════════════════ -->
+<div id="boot-screen">
+  <div class="boot-logo">ALFRED <span>1.0</span></div>
+  <div class="boot-sub" id="boot-sub">INITIALIZING...</div>
+  <div class="boot-bar-wrap">
+    <div class="boot-bar-fill" id="boot-bar-fill"></div>
+  </div>
+  <div class="boot-status" id="boot-status">LOADING MODULES...</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TOAST CONTAINER
+════════════════════════════════════════════ -->
+<div id="toast-container"></div>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-brand">
+    <div class="nav-brand-a">A</div>
+    ALFRED <span>OS</span>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-nav="dashboard" onclick="switchPage('dashboard')">⬡ Dashboard</button>
+    <button class="nav-tab" data-nav="training"  onclick="switchPage('training')">⚔ Hunter's Log</button>
+    <button class="nav-tab" data-nav="studies"   onclick="switchPage('studies')">📚 Knowledge Vault</button>
+    <button class="nav-tab" data-nav="chat"      onclick="switchPage('chat')">✦ Alfred's Study</button>
+    <button class="nav-tab" data-nav="codex"     onclick="switchPage('codex')">📖 Mission Codex</button>
+    <button class="nav-tab" data-nav="character" onclick="switchPage('character')">⚡ Character Sheet</button>
+  </div>
+
+  <div class="nav-right">
+    <div class="nav-xp">
+      <span class="nav-level" id="nav-level">LV 1</span>
+      <div class="nav-xp-bar"><div class="nav-xp-fill" id="nav-xp-fill" style="width:0%"></div></div>
+    </div>
+    <button class="btn-settings" onclick="openSettings()" title="Settings">⚙</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     MOBILE NAV
+════════════════════════════════════════════ -->
+<div class="mobile-nav">
+  <div class="mobile-nav-tabs">
+    <button class="mobile-nav-btn active" data-nav="dashboard" onclick="switchPage('dashboard')">
+      <span class="mobile-nav-icon">⬡</span>Base
+    </button>
+    <button class="mobile-nav-btn" data-nav="training" onclick="switchPage('training')">
+      <span class="mobile-nav-icon">⚔</span>Train
+    </button>
+    <button class="mobile-nav-btn" data-nav="studies" onclick="switchPage('studies')">
+      <span class="mobile-nav-icon">📚</span>Study
+    </button>
+    <button class="mobile-nav-btn" data-nav="chat" onclick="switchPage('chat')">
+      <span class="mobile-nav-icon">✦</span>Alfred
+    </button>
+    <button class="mobile-nav-btn" data-nav="codex" onclick="switchPage('codex')">
+      <span class="mobile-nav-icon">📖</span>Codex
+    </button>
+    <button class="mobile-nav-btn" data-nav="character" onclick="switchPage('character')">
+      <span class="mobile-nav-icon">⚡</span>Character
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE: DASHBOARD
+═══════════════════════════════════════════════════════════ -->
+<div id="page-dashboard" class="page active">
+  <div class="dashboard-layout">
+
+    <!-- ── Left column ── -->
+    <div class="dashboard-left">
+
+      <!-- Alfred greeting -->
+      <div class="alfred-greeting-card fade-in">
+        <div class="alfred-avatar">A</div>
+        <div class="alfred-greeting-text">
+          <div class="alfred-greeting-label">System Butler · Alfred v1.0</div>
+          <div class="alfred-greeting-msg" id="alfred-greeting-msg">Good evening, Sir. The System is active and monitoring your progress.</div>
+        </div>
+        <button class="alfred-greeting-link" onclick="switchPage('chat')">✦ Speak with Alfred →</button>
+      </div>
+
+      <!-- XP Bar -->
+      <div class="sys-panel xp-card fade-in fade-in-1">
+        <div class="xp-card-inner">
+          <div class="xp-header">
+            <div class="xp-label">Character Progression</div>
+            <div class="xp-level" id="xp-level-txt">LEVEL 1 <span>CHARACTER</span></div>
+          </div>
+          <div class="xp-bar-track">
+            <div class="xp-bar-fill" id="xp-fill" style="width:0%"></div>
+          </div>
+          <div class="xp-caption">
+            <span id="xp-cap-left">Training LV1 · Knowledge LV1</span>
+            <span id="xp-cap-right">0 total XP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dual Countdown -->
+      <div class="countdown-grid fade-in fade-in-1">
+        <div class="sys-panel countdown-card">
+          <div class="sys-panel-header">
+            <div class="sys-panel-tag">Race Countdown</div>
+          </div>
+          <div class="countdown-inner">
+            <div class="countdown-num" id="countdown-num">—</div>
+            <div class="countdown-label">Days to Race Day</div>
+            <div class="countdown-date" id="countdown-date">Set your race date →</div>
+          </div>
+        </div>
+        <div class="sys-panel countdown-card">
+          <div class="sys-panel-header">
+            <div class="sys-panel-tag" style="color:var(--gold)">PMP Exam Countdown</div>
+          </div>
+          <div class="countdown-inner">
+            <div class="countdown-num" id="exam-countdown-num" style="color:var(--gold);text-shadow:0 0 20px rgba(201,168,76,0.4)">—</div>
+            <div class="countdown-label">Days to PMP Exam</div>
+            <div class="countdown-date" id="exam-countdown-date">Set exam date in Settings ⚙</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat grid -->
+      <div class="stat-grid fade-in fade-in-2">
+        <div class="sys-panel stat-card sc-training">
+          <div class="sys-panel-body" style="padding:14px 16px">
+            <div class="stat-card-label">Training Level</div>
+            <div class="stat-card-value" id="stat-level">LV 1</div>
+            <div class="stat-card-sub">Hunter rank</div>
+          </div>
+        </div>
+        <div class="sys-panel stat-card sc-pmp">
+          <div class="sys-panel-body" style="padding:14px 16px">
+            <div class="stat-card-label">PMP Average</div>
+            <div class="stat-card-value" id="stat-pmp">—</div>
+            <div class="stat-card-sub">Mock exam avg</div>
+          </div>
+        </div>
+        <div class="sys-panel stat-card sc-po">
+          <div class="sys-panel-body" style="padding:14px 16px">
+            <div class="stat-card-label">Knowledge Level</div>
+            <div class="stat-card-value" id="stat-po">LV 1</div>
+            <div class="stat-card-sub">Vault rank</div>
+          </div>
+        </div>
+        <div class="sys-panel stat-card sc-streak">
+          <div class="sys-panel-body" style="padding:14px 16px">
+            <div class="stat-card-label">Study Streak</div>
+            <div class="stat-card-value" id="stat-streak">0d</div>
+            <div class="stat-card-sub">Consecutive days</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Quests -->
+      <div class="sys-panel quest-card fade-in fade-in-2">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag">Daily Quest Board</div>
+          <div class="sys-panel-title">Today's Missions</div>
+        </div>
+        <div class="quest-body" id="quest-list">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+
+      <!-- Alert (hidden by default) -->
+      <div class="sys-alert" id="sys-alert">
+        <span class="sys-alert-icon">⚠</span>
+        <span id="alert-msg"></span>
+      </div>
+
+    </div><!-- /dashboard-left -->
+
+    <!-- ── Right sidebar: Mission Arc ── -->
+    <div class="sys-panel phase-strip fade-in fade-in-3">
+      <div class="sys-panel-header">
+        <div class="sys-panel-tag">Mission Arc</div>
+        <div class="sys-panel-title">All Active Tracks</div>
+      </div>
+      <div class="phase-strip-inner">
+        <div class="arc-track">
+          <div class="arc-track-label">⚔ Hyrox Training</div>
+          <div class="phase-list" id="phase-list"><!-- Rendered by app.js --></div>
+        </div>
+        <div class="arc-vsep"></div>
+        <div class="arc-track">
+          <div class="arc-track-label" style="color:var(--gold)">📚 PMP Certification</div>
+          <div class="phase-list" id="pmp-arc-list"><!-- Rendered by app.js --></div>
+        </div>
+        <div class="arc-vsep"></div>
+        <div class="arc-track">
+          <div class="arc-track-label" style="color:var(--phase2)">🎯 Technical Product Owner</div>
+          <div class="phase-list" id="po-arc-list"><!-- Rendered by app.js --></div>
+        </div>
+      </div>
+    </div><!-- /phase-strip -->
+
+  </div><!-- /dashboard-layout -->
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE: TRAINING (HUNTER'S LOG)
+═══════════════════════════════════════════════════════════ -->
+<div id="page-training" class="page">
+  <div class="training-layout">
+
+    <div class="training-left">
+
+      <!-- Today's session -->
+      <div class="sys-panel session-today">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag">Hunter's Log</div>
+          <div class="sys-panel-title">Today's Session</div>
+        </div>
+        <div id="session-phase-bar" style="height:3px;background:var(--phase1)"></div>
+        <div class="session-body">
+          <div class="session-day-label" id="session-day-label">Phase 1 · Monday</div>
+          <div class="session-title" id="session-title">Pilates Intro</div>
+          <div class="session-desc" id="session-desc">Loading session details...</div>
+          <div class="exercise-list" id="exercise-list"></div>
+          <button class="session-codex-link hidden" id="session-codex-link">► Watch Reference Video</button>
+          <button class="session-log-btn" id="log-session-btn" onclick="logSession()">[ LOG SESSION AS COMPLETE ]</button>
+        </div>
+      </div>
+
+      <!-- Week grid -->
+      <div class="sys-panel week-grid-card">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag">This Week</div>
+        </div>
+        <div class="week-cells" id="week-cells">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+
+      <!-- Phase progress -->
+      <div class="sys-panel phase-progress-card">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag">Phase Progress</div>
+        </div>
+        <div class="phase-prog-inner">
+          <div class="phase-prog-title" id="phase-prog-title">Phase 1: Foundation</div>
+          <div class="phase-prog-months" id="phase-prog-months">June · Weeks 1–4</div>
+          <div class="phase-prog-bar-wrap">
+            <div class="phase-prog-bar-fill" id="phase-prog-fill" style="width:0%"></div>
+          </div>
+          <div class="phase-prog-caption">
+            <span id="phase-prog-cap-left">0% complete</span>
+            <span id="phase-prog-cap-right">0/20 sessions</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="training-right">
+
+      <!-- Station PBs -->
+      <div class="sys-panel stations-card">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag">Race Stations</div>
+          <div class="sys-panel-title">Personal Bests</div>
+        </div>
+        <table class="stations-table">
+          <thead>
+            <tr>
+              <th>Station</th>
+              <th>Best Time</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="stations-body">
+            <!-- Rendered by app.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Run log -->
+      <div class="sys-panel run-log-card">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag">Run Tracker</div>
+          <div class="sys-panel-title">Run Log</div>
+        </div>
+        <div class="run-entries" id="run-entries">
+          <!-- Rendered by app.js -->
+        </div>
+        <div class="run-log-form">
+          <input class="run-input" id="run-km"  type="number" step="0.1" min="0" placeholder="km (e.g. 5)">
+          <input class="run-input" id="run-min" type="number" step="0.5" min="0" placeholder="min (e.g. 28)">
+          <button class="btn-add-run" onclick="addRun()">+ LOG RUN</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE: STUDIES (KNOWLEDGE VAULT)
+═══════════════════════════════════════════════════════════ -->
+<div id="page-studies" class="page">
+  <div class="studies-layout">
+
+    <div class="studies-header">
+      <div class="studies-title">⬡ SYSTEM: Knowledge Vault</div>
+      <div class="studies-sub">PMP Certification · Technical Product Owner · Track your path to mastery.</div>
+    </div>
+
+    <!-- PMP Track -->
+    <div class="pmp-track">
+
+      <!-- Course Hero — rendered by app.js -->
+      <div class="sys-panel pmp-course-hero" id="pmp-course-hero"></div>
+
+      <!-- Guided Study Plan — shown when exam date is set -->
+      <div class="sys-panel" id="pmp-study-plan-panel" style="display:none">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag" style="color:var(--gold)">Guided Study Plan</div>
+          <div class="sys-panel-title">Week-by-Week Programme</div>
+        </div>
+        <div id="pmp-study-plan"></div>
+      </div>
+
+      <!-- Curriculum Accordion — rendered by app.js -->
+      <div class="sys-panel">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag" style="color:var(--gold)">PMP Certification</div>
+          <div class="sys-panel-title">Course Curriculum</div>
+        </div>
+        <div id="pmp-curriculum"></div>
+        <div class="pmp-study-btn-row">
+          <button class="btn-mark-studied" id="mark-studied-btn" onclick="markStudiedToday()">[ MARK TODAY AS STUDIED ]</button>
+        </div>
+      </div>
+
+      <!-- Study Streak -->
+      <div class="sys-panel">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag" style="color:var(--gold)">Study Streak</div>
+          <div class="sys-panel-title"><span id="streak-count">0</span> Consecutive Days</div>
+        </div>
+        <div class="streak-row" id="streak-calendar">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+
+      <!-- Mock Scores -->
+      <div class="sys-panel">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag" style="color:var(--gold)">Mock Exam Tracker</div>
+          <div class="sys-panel-title">Score History</div>
+        </div>
+        <div class="score-entries" id="score-entries">
+          <!-- Rendered by app.js -->
+        </div>
+        <div class="score-add-form">
+          <input class="score-input" id="score-val"   type="number" placeholder="Score (e.g. 126)" min="0">
+          <input class="score-input" id="score-total" type="number" placeholder="Total (e.g. 180)" min="1" value="180" style="max-width:100px">
+          <button class="btn-add-score" onclick="addMockScore()">+ ADD SCORE</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PO Track -->
+    <div class="po-track">
+
+      <!-- Course Hero — rendered by app.js -->
+      <div class="sys-panel pmp-course-hero" id="po-course-hero"></div>
+
+      <!-- Curriculum Accordion — rendered by app.js -->
+      <div class="sys-panel">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag" style="color:var(--phase2)">Product Owner Roadmap</div>
+          <div class="sys-panel-title">Course Curriculum</div>
+        </div>
+        <div id="po-curriculum"></div>
+      </div>
+
+      <!-- Vibe Coding Dev Log -->
+      <div class="sys-panel">
+        <div class="sys-panel-header">
+          <div class="sys-panel-tag" style="color:var(--cyan)">Vibe Coding</div>
+          <div class="sys-panel-title">What Did I Build?</div>
+        </div>
+        <div id="build-log-entries"></div>
+        <div class="build-entry-form">
+          <input class="build-input" id="build-project" type="text" placeholder="Project name...">
+          <textarea class="build-textarea" id="build-desc" placeholder="What did you build, learn, or ship?"></textarea>
+          <div class="build-tech-row">
+            <button class="build-tag-btn" data-tag="HTML/CSS" onclick="toggleBuildTag('HTML/CSS')">HTML/CSS</button>
+            <button class="build-tag-btn" data-tag="JavaScript" onclick="toggleBuildTag('JavaScript')">JavaScript</button>
+            <button class="build-tag-btn" data-tag="React" onclick="toggleBuildTag('React')">React</button>
+            <button class="build-tag-btn" data-tag="Tailwind" onclick="toggleBuildTag('Tailwind')">Tailwind</button>
+            <button class="build-tag-btn" data-tag="AI-Assisted" onclick="toggleBuildTag('AI-Assisted')">AI-Assisted</button>
+            <button class="build-tag-btn" data-tag="Node/API" onclick="toggleBuildTag('Node/API')">Node/API</button>
+          </div>
+          <button class="btn-log-build" onclick="addBuildEntry()">+ LOG BUILD</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE: ALFRED'S STUDY (CHAT)
+═══════════════════════════════════════════════════════════ -->
+<div id="page-chat" class="page">
+  <div class="chat-layout">
+
+    <div class="chat-header">
+      <div class="chat-alfred-avatar">A</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Alfred — <span>Personal System Butler</span></div>
+        <div class="chat-header-status">Active · Monitoring System</div>
+      </div>
+    </div>
+
+    <div class="chat-quick-btns">
+      <button class="quick-btn" onclick="sendQuick('How am I doing?')">📊 How am I doing?</button>
+      <button class="quick-btn" onclick="sendQuick('What should I train today?')">⚔ What should I train today?</button>
+      <button class="quick-btn" onclick="sendQuick('Give me a PMP tip')">📚 PMP tip</button>
+      <button class="quick-btn" onclick="sendQuick('Motivate me, Alfred')">⚡ Motivate me</button>
+      <button class="quick-btn" onclick="sendQuick('How is my race prep going?')">🏁 Race prep status</button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+      <!-- Rendered by app.js -->
+    </div>
+
+    <!-- Alfred typing indicator -->
+    <div class="alfred-typing" id="alfred-typing">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <span style="font-size:10px;color:var(--muted);margin-left:6px;font-family:'Space Mono',monospace;letter-spacing:0.1em">Alfred is composing...</span>
+    </div>
+
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-input" type="text" placeholder="Ask Alfred anything about your training, studies, or race prep...">
+      <button class="chat-send-btn" onclick="sendChat()">SEND →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE: MISSION CODEX (ROADMAP)
+═══════════════════════════════════════════════════════════ -->
+<div id="page-codex" class="page">
+  <div class="codex-layout">
+
+    <div class="section-tag" style="color:var(--blue)">Mission Codex</div>
+    <h1 class="section-title">Your Complete<br>Programme</h1>
+
+    <div class="codex-tabs">
+      <button class="codex-tab active" data-tab="roadmap" onclick="switchCodexTab('roadmap')">⚔ Training Roadmap</button>
+      <button class="codex-tab" data-tab="youtube" onclick="switchCodexTab('youtube')">▶ YouTube Arsenal</button>
+    </div>
+
+    <!-- Roadmap sub -->
+    <div class="codex-sub active" id="codex-roadmap">
+      <div id="codex-phases">
+        <!-- Rendered by app.js -->
+      </div>
+
+      <!-- Race Splits -->
+      <div style="margin-top:2px;">
+        <div style="background:var(--run);padding:32px 40px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:rgba(0,0,0,0.5);margin-bottom:8px;text-transform:uppercase">Race Strategy</div>
+          <h2 style="font-family:'Rajdhani',sans-serif;font-size:40px;font-weight:700;letter-spacing:0.03em;color:var(--bg);line-height:1;margin-bottom:16px">Target 1:30 Split Plan</h2>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px">
+            <div style="background:rgba(0,0,0,0.08);padding:20px">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--bg);margin-bottom:4px">Running Total</div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:40px;font-weight:700;color:var(--bg)">52:00</div>
+              <div style="font-size:11px;color:rgba(0,0,0,0.55)">8 × 1km @ 6:30/km avg</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.08);padding:20px">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--bg);margin-bottom:4px">Station Time</div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:40px;font-weight:700;color:var(--bg)">35:00</div>
+              <div style="font-size:11px;color:rgba(0,0,0,0.55)">~4–5 min per station avg</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.08);padding:20px">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--bg);margin-bottom:4px">Transitions</div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:40px;font-weight:700;color:var(--bg)">3:00</div>
+              <div style="font-size:11px;color:rgba(0,0,0,0.55)">&lt;20 sec per transition</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.08);padding:20px">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--bg);margin-bottom:4px">Target Finish</div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:40px;font-weight:700;color:var(--bg)">1:30</div>
+              <div style="font-size:11px;color:rgba(0,0,0,0.55)">Sub 90 minutes. You have this.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YouTube sub -->
+    <div class="codex-sub" id="codex-youtube">
+      <div style="margin-bottom:32px">
+        <div class="yt-section-tag" style="color:var(--pilates)">Pilates Track</div>
+        <div class="yt-section-title">At-Home Pilates Workouts</div>
+        <div style="font-size:12px;color:var(--muted);max-width:480px;line-height:1.7">Work through these in order — Phase 1 videos first, then progress as your training phases advance.</div>
+      </div>
+      <div class="codex-video-grid" id="codex-videos-pilates"></div>
+
+      <div style="height:1px;background:var(--border);margin:40px 0"></div>
+
+      <div style="margin-bottom:32px">
+        <div class="yt-section-tag" style="color:var(--strength)">Hyrox Track</div>
+        <div class="yt-section-title">Hyrox Training & Race Prep</div>
+      </div>
+      <div class="codex-video-grid" id="codex-videos-hyrox"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE: CHARACTER SHEET
+═══════════════════════════════════════════════════════════ -->
+<div id="page-character" class="page">
+  <div class="char-layout" id="char-panel-inner">
+
+    <!-- Header -->
+    <div class="sys-panel char-header-panel">
+      <div class="char-header-inner">
+        <div class="char-avatar" id="char-avatar">?</div>
+        <div class="char-identity">
+          <div class="char-class-label" id="char-class-label">THE ADVENTURER</div>
+          <div class="char-name" id="char-name">Sir</div>
+          <div class="char-meta" id="char-meta">Human · Level 1</div>
+          <div class="char-career-line" id="char-career-line"></div>
+        </div>
+        <div class="char-level-wrap">
+          <div class="char-overall-label">OVERALL LEVEL</div>
+          <div class="char-overall-num" id="char-overall-level">1</div>
+          <div class="char-xp-bar"><div class="char-xp-fill" id="char-xp-fill" style="width:0%"></div></div>
+          <div class="char-xp-label" id="char-xp-label">0 XP total</div>
+          <button class="char-edit-btn" onclick="openCharModal()">✎ Edit Character</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ability Scores -->
+    <div class="sys-panel" style="grid-column:1/-1">
+      <div class="sys-panel-header">
+        <div class="sys-panel-tag">D&amp;D Ability Scores</div>
+        <div class="sys-panel-title">Derived from your real-life progress</div>
+      </div>
+      <div class="ability-scores" id="ability-scores">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+
+    <!-- Level Breakdown -->
+    <div class="sys-panel">
+      <div class="sys-panel-header">
+        <div class="sys-panel-tag">Progression</div>
+        <div class="sys-panel-title">Level Breakdown</div>
+      </div>
+      <div class="level-breakdown" id="level-breakdown">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+
+    <!-- Proficiencies -->
+    <div class="sys-panel">
+      <div class="sys-panel-header">
+        <div class="sys-panel-tag">Proficiencies</div>
+        <div class="sys-panel-title">Skills &amp; Feats Unlocked</div>
+      </div>
+      <div class="proficiencies-list" id="proficiencies-list">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="sys-panel" style="grid-column:1/-1">
+      <div class="sys-panel-header">
+        <div class="sys-panel-tag">Character Background</div>
+        <div class="sys-panel-title">Lore &amp; Physical Stats</div>
+      </div>
+      <div class="char-background" id="char-background">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODALS
+═══════════════════════════════════════════════════════════ -->
+
+<!-- Character Creation Modal -->
+<div class="modal-overlay" id="char-modal">
+  <div class="modal-box char-modal-box">
+    <div class="modal-tag">Character Creation</div>
+    <div class="modal-title">Forge Your Identity, Sir.</div>
+    <div class="modal-sub">These details shape your D&amp;D ability scores and personalise the System.</div>
+    <div class="char-form-grid">
+      <div class="modal-field">
+        <label class="modal-label" for="char-name-input">Name / Callsign</label>
+        <input class="modal-input" id="char-name-input" type="text" placeholder="Sir">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="char-career-input">Career / Profession</label>
+        <input class="modal-input" id="char-career-input" type="text" placeholder="e.g. Product Manager">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="char-age-input">Age</label>
+        <input class="modal-input" id="char-age-input" type="number" min="16" max="100" placeholder="e.g. 28">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="char-height-input">Height (cm)</label>
+        <input class="modal-input" id="char-height-input" type="number" placeholder="e.g. 180">
+      </div>
+      <div class="modal-field" style="grid-column:1/-1">
+        <label class="modal-label" for="char-weight-input">Weight (kg)</label>
+        <input class="modal-input" id="char-weight-input" type="number" placeholder="e.g. 80" style="max-width:200px">
+      </div>
+      <div class="modal-field" style="grid-column:1/-1">
+        <label class="modal-label" for="char-hobbies-input">Hobbies &amp; Interests</label>
+        <input class="modal-input" id="char-hobbies-input" type="text" placeholder="e.g. Running, Reading, Gaming, Coding">
+      </div>
+      <div class="modal-field" style="grid-column:1/-1">
+        <label class="modal-label">Charisma Score (8–18) — Natural presence &amp; influence</label>
+        <div class="cha-slider-wrap">
+          <input class="cha-slider" id="char-cha-input" type="range" min="8" max="18" value="10" oninput="updateChaDisplay()">
+          <div class="cha-value" id="cha-display">10 <span>(+0)</span></div>
+        </div>
+      </div>
+      <div class="modal-field" style="grid-column:1/-1">
+        <label class="modal-label" for="char-backstory-input">Backstory (optional)</label>
+        <textarea class="modal-input" id="char-backstory-input" rows="3" placeholder="A brief description of your journey..."></textarea>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn-secondary" onclick="closeModal('char-modal')">Skip for Now</button>
+      <button class="modal-btn-primary" onclick="saveChar()">⚔ FORGE CHARACTER</button>
+    </div>
+  </div>
+</div>
+
+<!-- Setup Modal (first run) -->
+<div class="modal-overlay" id="setup-modal">
+  <div class="modal-box">
+    <div class="modal-tag">System Initialisation</div>
+    <div class="modal-title">Welcome, Sir.</div>
+    <div class="modal-sub">Two dates are required before Alfred can fully brief you. Your Hyrox race and your PMP examination.</div>
+    <div class="modal-field">
+      <label class="modal-label" for="setup-race-date">Hyrox Race Date</label>
+      <input class="modal-input" id="setup-race-date" type="date">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="setup-pmp-date">PMP Exam Date</label>
+      <input class="modal-input" id="setup-pmp-date" type="date">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="setup-phase">Current Training Phase</label>
+      <select class="modal-input settings-select" id="setup-phase">
+        <option value="1">Phase 1 — Foundation & Activation</option>
+        <option value="2">Phase 2 — Aerobic Development</option>
+        <option value="3">Phase 3 — Hyrox Specificity</option>
+        <option value="4">Phase 4 — Race Simulation</option>
+        <option value="5">Phase 5 — Taper & Race Prep</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn-primary" onclick="completeSetup()">ENGAGE ALFRED →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal-box">
+    <div class="modal-tag">System Settings</div>
+    <div class="modal-title">Configure</div>
+    <div class="modal-field settings-field">
+      <label class="modal-label" for="settings-race-date">Race Date</label>
+      <input class="modal-input" id="settings-race-date" type="date">
+    </div>
+    <div class="modal-field settings-field">
+      <label class="modal-label" for="settings-pmp-date">PMP Exam Date</label>
+      <input class="modal-input" id="settings-pmp-date" type="date">
+    </div>
+    <div class="modal-field settings-field">
+      <label class="modal-label" for="settings-phase">Current Phase</label>
+      <select class="settings-select" id="settings-phase">
+        <option value="1">Phase 1 — Foundation & Activation</option>
+        <option value="2">Phase 2 — Aerobic Development</option>
+        <option value="3">Phase 3 — Hyrox Specificity</option>
+        <option value="4">Phase 4 — Race Simulation</option>
+        <option value="5">Phase 5 — Taper & Race Prep</option>
+      </select>
+    </div>
+    <button class="btn-danger" onclick="confirmReset()">⚠ Reset All Data</button>
+    <div class="modal-btns">
+      <button class="modal-btn-secondary" onclick="closeModal('settings-modal')">Cancel</button>
+      <button class="modal-btn-primary" onclick="saveSettings()">SAVE SETTINGS</button>
+    </div>
+  </div>
+</div>
+
+<!-- Station PB Modal -->
+<div class="modal-overlay" id="station-modal">
+  <div class="modal-box">
+    <div class="modal-tag">Station Personal Best</div>
+    <div class="modal-title" id="station-modal-title">Log PB</div>
+    <div class="modal-field">
+      <div class="station-modal-label" id="station-modal-label">Enter your time.</div>
+      <input class="modal-input" id="station-modal-input" type="text" placeholder="e.g. 4:20">
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn-secondary" onclick="closeModal('station-modal')">Cancel</button>
+      <button class="modal-btn-primary" onclick="saveStationPB()">SAVE PB</button>
+    </div>
+  </div>
+</div>
+
+<script src="alfred.js"></script>
+<script src="app.js"></script>
+<script>
+  // Setup modal confirm
+  function completeSetup() {
+    const date    = document.getElementById('setup-race-date')?.value;
+    const pmpDate = document.getElementById('setup-pmp-date')?.value;
+    const phase   = parseInt(document.getElementById('setup-phase')?.value) || 1;
+    AlfredData.update(d => {
+      if (date)    d.settings.raceDate    = date;
+      if (pmpDate) d.settings.pmpExamDate = pmpDate;
+      d.settings.currentPhase = phase;
+      d.settings.setupDone = true;
+    });
+    closeModal('setup-modal');
+    showToast('Alfred is fully briefed, Sir. The System is ready.', 'gold', 'SYSTEM ONLINE');
+    renderDashboard();
+    renderStudies();
+    setTimeout(() => openCharModal(), 600);
+  }
+
+</script>
+</body>
+</html>
