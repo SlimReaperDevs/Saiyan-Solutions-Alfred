@@ -47,10 +47,21 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
 }
-a { color: inherit; text-decoration: none; }
-button { cursor: pointer; font-family: inherit; }
-input, textarea, select { font-family: inherit; }
+a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+button {
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+input, textarea, select {
+  font-family: inherit;
+  /* ≥16px prevents iOS Safari auto-zoom on focus */
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
 ul { list-style: none; }
 
 /* ── Scrollbar ── */
@@ -131,11 +142,15 @@ ul { list-style: none; }
   height: 56px;
   background: rgba(6,6,8,0.95);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
+  /* iPhone notch / status bar */
+  padding-top: env(safe-area-inset-top);
+  height: calc(56px + env(safe-area-inset-top));
 }
 
 .nav-brand {
@@ -240,7 +255,11 @@ ul { list-style: none; }
 /* ============================================================
    PAGES
    ============================================================ */
-.page { display: none; padding-top: 56px; min-height: 100vh; }
+.page {
+  display: none;
+  padding-top: calc(56px + env(safe-area-inset-top));
+  min-height: 100vh;
+}
 .page.active { display: block; }
 
 /* ============================================================
@@ -1496,6 +1515,7 @@ ul { list-style: none; }
 .chat-messages {
   flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -1810,6 +1830,8 @@ ul { list-style: none; }
   inset: 0;
   z-index: 200;
   background: rgba(6,6,8,0.88);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  overflow-y: auto;
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -1822,7 +1844,8 @@ ul { list-style: none; }
   background: var(--panel);
   border: 1px solid var(--border2);
   padding: 36px 40px;
-  min-width: 360px;
+  width: 100%;
+  min-width: 0;
   max-width: 480px;
   clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
   box-shadow: 0 0 40px var(--glow);
@@ -2039,8 +2062,12 @@ ul { list-style: none; }
   bottom: 0; left: 0; right: 0;
   z-index: 100;
   background: rgba(6,6,8,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   padding: 8px 0;
+  /* iPhone home indicator */
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
 }
 .mobile-nav-tabs {
   display: flex;
@@ -2050,6 +2077,9 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
   gap: 3px;
   padding: 6px 12px;
   background: transparent;
@@ -2065,6 +2095,55 @@ ul { list-style: none; }
 .mobile-nav-icon { font-size: 18px; }
 
 @media (max-width: 900px) {
-  .mobile-nav { display: block; }
-  .page { padding-bottom: 68px; }
+  .mobile-nav { display: flex; flex-direction: column; }
+  /* Leave room for the bottom nav + iPhone home bar */
+  .page { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+
+/* ============================================================
+   MOBILE / iPHONE POLISH
+   ============================================================ */
+@media (max-width: 900px) {
+
+  /* Prevent all horizontal overflow */
+  body, .page { overflow-x: hidden; }
+
+  /* Inputs: 16px required to prevent iOS zoom */
+  input, textarea, select,
+  .modal-input, .chat-input, .run-input,
+  .score-input, .build-input, .build-textarea { font-size: 16px; }
+
+  /* Modal: fit small screens, allow vertical scroll */
+  .modal-box { padding: 24px 20px; margin: 16px auto; }
+  .modal-overlay { align-items: flex-start; padding-top: 20px; }
+
+  /* Nav: remove padding that looks odd on mobile */
+  #main-nav { padding: 0 16px; padding-top: env(safe-area-inset-top); }
+
+  /* Quick action buttons wrap cleanly */
+  .chat-quick-btns { flex-wrap: wrap; gap: 6px; }
+  .quick-btn { font-size: 10px; padding: 6px 10px; }
+
+  /* Chat input row — stack on very small screens */
+  .chat-input-row { gap: 6px; }
+  .chat-send-btn { padding: 12px 14px; white-space: nowrap; }
+
+  /* Stat cards: min touch target */
+  .stat-card { min-height: 44px; }
+
+  /* Session log button — full width on mobile */
+  .session-log-btn { width: 100%; }
+
+  /* Accordion chapter headers — easy tap */
+  .chapter-header { min-height: 48px; }
+
+  /* Phase items in arc — bigger tap area */
+  .phase-item { min-height: 44px; }
+
+  /* Momentum scroll on all scrollable panels */
+  .phase-strip-inner,
+  .chat-messages,
+  .run-entries,
+  .score-entries,
+  .pmp-study-plan { -webkit-overflow-scrolling: touch; }
 }
